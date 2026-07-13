@@ -1,0 +1,688 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+<div class="max-w-7xl mx-auto px-4 py-6">
+  <!-- Header -->
+  <header class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-green to-accent-blue flex items-center justify-center text-xl">✨</div>
+      <h1 class="text-2xl font-bold bg-gradient-to-r from-accent-green to-accent-blue bg-clip-text text-transparent">AI营销文案</h1>
+    </div>
+    <button id="historyBtn" onclick="toggleHistory()" class="text-sm text-gray-400 hover:text-accent-green transition flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dark-border hover:border-accent-green/40">
+      <span>📋</span> 历史记录
+    </button>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="flex gap-1 border-b border-dark-border mb-6 overflow-x-auto pb-px" id="tabNav">
+    <button data-tab="xiaohongshu" class="tab-btn tab-active px-4 py-3 text-sm font-medium whitespace-nowrap transition hover:text-accent-green" onclick="switchTab('xiaohongshu')">📕 小红书种草文</button>
+    <button data-tab="pengyouquan" class="tab-btn px-4 py-3 text-sm font-medium text-gray-400 whitespace-nowrap transition hover:text-accent-green" onclick="switchTab('pengyouquan')">💬 朋友圈营销文</button>
+    <button data-tab="shangpin" class="tab-btn px-4 py-3 text-sm font-medium text-gray-400 whitespace-nowrap transition hover:text-accent-green" onclick="switchTab('shangpin')">🛒 商品详情文案</button>
+    <button data-tab="shipin" class="tab-btn px-4 py-3 text-sm font-medium text-gray-400 whitespace-nowrap transition hover:text-accent-green" onclick="switchTab('shipin')">🎬 短视频脚本</button>
+    <button data-tab="seo" class="tab-btn px-4 py-3 text-sm font-medium text-gray-400 whitespace-nowrap transition hover:text-accent-green" onclick="switchTab('seo')">📝 SEO文章</button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Left: Input Form -->
+    <div class="space-y-4">
+      <!-- 小红书表单 -->
+      <div id="form-xiaohongshu" class="tab-form space-y-4 fade-in">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">产品名称 <span class="text-red-400">*</span></label>
+          <input type="text" id="xhs-name" placeholder="例：完美日记小细跟口红" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">产品特点 <span class="text-red-400">*</span></label>
+          <textarea id="xhs-features" rows="3" placeholder="例：丝绒质地、显白不挑皮、持久不脱色、高级哑光感" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">目标人群</label>
+          <input type="text" id="xhs-audience" placeholder="例：18-30岁年轻女性，学生/职场新人" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">风格</label>
+          <div class="flex gap-2">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="xhs-style" value="种草" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🌱 种草推荐</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="xhs-style" value="测评" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🔍 真实测评</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="xhs-style" value="开箱" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">📦 开箱分享</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 朋友圈表单 -->
+      <div id="form-pengyouquan" class="tab-form space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">产品/服务描述 <span class="text-red-400">*</span></label>
+          <textarea id="pyq-desc" rows="3" placeholder="例：手工现做蛋糕，天然奶油，无添加，生日定制款" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">风格</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="pyq-style" value="促销" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🔥 促销活动</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="pyq-style" value="日常分享" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">😊 日常分享</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="pyq-style" value="故事型" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">📖 故事型</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="pyq-style" value="紧迫感" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">⏰ 紧迫感</div>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="pyq-price" class="w-4 h-4 rounded border-dark-border bg-dark-input text-accent-green focus:ring-accent-green/30" />
+            <span class="text-sm text-gray-300">包含价格信息</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 商品详情表单 -->
+      <div id="form-shangpin" class="tab-form space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">商品名称 <span class="text-red-400">*</span></label>
+          <input type="text" id="sp-name" placeholder="例：轻薄羽绒服女款" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">商品类目</label>
+          <input type="text" id="sp-category" placeholder="例：女装/羽绒服" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">核心卖点（每行一个，最多5个）</label>
+          <textarea id="sp-points" rows="5" placeholder="例：&#10;90%白鹅绒填充&#10;轻盈仅200g&#10;防风防泼水面料&#10;可收纳便携设计&#10;百搭不挑人" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">目标客群</label>
+          <input type="text" id="sp-audience" placeholder="例：25-40岁都市女性，注重品质与性价比" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+      </div>
+
+      <!-- 短视频脚本表单 -->
+      <div id="form-shipin" class="tab-form space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">视频主题 <span class="text-red-400">*</span></label>
+          <input type="text" id="sv-topic" placeholder="例：新品防晒霜测评，海边实测效果" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">视频时长</label>
+          <div class="flex gap-2">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-duration" value="15" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">15秒</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-duration" value="30" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">30秒</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-duration" value="60" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">60秒</div>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">风格</label>
+          <div class="flex gap-2">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-style" value="口播" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🎤 口播讲解</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-style" value="剧情" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🎭 剧情演绎</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="sv-style" value="产品展示" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">📱 产品展示</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO文章表单 -->
+      <div id="form-seo" class="tab-form space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">主关键词 <span class="text-red-400">*</span></label>
+          <input type="text" id="seo-keyword" placeholder="例：家用咖啡机推荐" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">副关键词（可选，逗号分隔）</label>
+          <input type="text" id="seo-sub" placeholder="例：胶囊咖啡机,意式咖啡机,咖啡机测评" class="w-full px-4 py-2.5 bg-dark-input border border-dark-border rounded-lg focus:border-accent-green focus:outline-none focus:ring-1 focus:ring-accent-green/30 transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">文章字数</label>
+          <div class="flex gap-2">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-words" value="800" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">约800字</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-words" value="1500" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">约1500字</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-words" value="3000" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">约3000字</div>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">语气风格</label>
+          <div class="flex gap-2">
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-tone" value="专业" checked class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">📊 专业严谨</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-tone" value="通俗" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">💬 通俗易懂</div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input type="radio" name="seo-tone" value="营销" class="hidden peer" />
+              <div class="text-center py-2 rounded-lg border border-dark-border peer-checked:border-accent-green peer-checked:bg-accent-green/10 peer-checked:text-accent-green transition text-sm">🎯 营销转化</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button id="generateBtn" onclick="generate()" class="btn-generate w-full py-3 rounded-xl font-medium text-white text-base shadow-lg">
+        ✨ 一键生成
+      </button>
+    </div>
+
+    <!-- Right: Result Output -->
+    <div class="space-y-4">
+      <div class="bg-dark-card border border-dark-border rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-dark-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-accent-green"></span>
+            <span class="text-sm font-medium text-gray-300">生成结果</span>
+            <span id="wordCount" class="text-xs text-gray-500 hidden"></span>
+          </div>
+          <div class="flex gap-2">
+            <button id="copyBtn" onclick="copyResult()" class="text-xs text-gray-400 hover:text-accent-green transition px-2 py-1 rounded border border-transparent hover:border-accent-green/40 hidden">
+              📋 复制
+            </button>
+            <button id="regenBtn" onclick="generate()" class="text-xs text-gray-400 hover:text-accent-blue transition px-2 py-1 rounded border border-transparent hover:border-accent-blue/40 hidden">
+              🔄 重新生成
+            </button>
+          </div>
+        </div>
+        <div id="resultArea" class="p-5 min-h-[400px] max-h-[70vh] overflow-y-auto">
+          <div class="flex flex-col items-center justify-center h-[360px] text-gray-500">
+            <div class="text-5xl mb-4 opacity-30">✍️</div>
+            <p class="text-sm">选择左侧工具，填写信息后点击生成</p>
+            <p class="text-xs mt-2 text-gray-600">AI将为你创作高质量营销文案</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Panel -->
+  <div id="historyPanel" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end" onclick="if(event.target===this)toggleHistory()">
+    <div class="w-full max-w-md bg-dark-bg border-l border-dark-border h-full overflow-y-auto p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-gray-200">📋 生成历史</h3>
+        <div class="flex gap-2">
+          <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-300 transition px-2 py-1 rounded border border-dark-border hover:border-red-400/40">清空</button>
+          <button onclick="toggleHistory()" class="text-gray-400 hover:text-gray-200 text-xl leading-none">&times;</button>
+        </div>
+      </div>
+      <div id="historyList" class="space-y-3">
+        <p class="text-sm text-gray-500 text-center py-8">暂无历史记录</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== 状态管理 =====
+let currentTab = 'xiaohongshu';
+let isGenerating = false;
+let currentResult = '';
+
+const TAB_NAMES = {
+  xiaohongshu: '小红书种草文',
+  pengyouquan: '朋友圈营销文',
+  shangpin: '商品详情文案',
+  shipin: '短视频脚本',
+  seo: 'SEO文章'
+};
+
+// ===== Tab切换 =====
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('tab-active');
+    btn.classList.add('text-gray-400');
+  });
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('tab-active');
+  document.querySelector(`[data-tab="${tab}"]`).classList.remove('text-gray-400');
+  
+  document.querySelectorAll('.tab-form').forEach(f => f.classList.add('hidden'));
+  const form = document.getElementById(`form-${tab}`);
+  form.classList.remove('hidden');
+  form.classList.add('fade-in');
+}
+
+// ===== Prompt构建 =====
+function buildPrompt() {
+  switch(currentTab) {
+    case 'xiaohongshu': {
+      const name = document.getElementById('xhs-name').value.trim();
+      const features = document.getElementById('xhs-features').value.trim();
+      const audience = document.getElementById('xhs-audience').value.trim() || '年轻女性';
+      const style = document.querySelector('input[name="xhs-style"]:checked')?.value || '种草';
+      
+      if (!name || !features) { alert('请填写产品名称和产品特点'); return null; }
+      
+      return {
+        system_prompt: `你是一位资深小红书博主，拥有50万粉丝，擅长创作爆款笔记。你的文风自然真实，像闺蜜分享一样亲切。`,
+        prompt: `请为以下产品创作一篇小红书${style}笔记：
+
+产品信息：
+- 产品名称：${name}
+- 产品特点：${features}
+- 目标人群：${audience}
+- 笔记风格：${style}
+
+要求：
+1. 标题要吸引眼球，使用emoji装饰，不超过20字
+2. 正文300-500字，模拟真实用户口吻
+3. 大量使用emoji表情（每2-3句话至少1个），让排版好看
+4. 语气自然口语化，像在跟闺蜜聊天
+5. 适当加入使用场景和感受描写
+6. 结尾引导互动（点赞/收藏/关注）
+7. 末尾附上8-10个相关话题标签，格式：#标签名#
+
+请按以下格式输出：
+【标题】xxx
+【正文】xxx
+【标签】xxx`
+      };
+    }
+    
+    case 'pengyouquan': {
+      const desc = document.getElementById('pyq-desc').value.trim();
+      const style = document.querySelector('input[name="pyq-style"]:checked')?.value || '促销';
+      const withPrice = document.getElementById('pyq-price').checked;
+      
+      if (!desc) { alert('请填写产品/服务描述'); return null; }
+      
+      return {
+        system_prompt: `你是一位朋友圈营销文案大师，擅长创作高转化率的朋友圈文案。你写的文案简短有力，能引发共鸣和购买欲望。`,
+        prompt: `请为以下内容创作3条不同风格的朋友圈营销文案：
+
+产品/服务：${desc}
+文案风格：${style}
+${withPrice ? '需要在文案中体现价格信息（可用占位符如¥XX）' : '不需要体现具体价格'}
+
+要求：
+1. 每条文案100-200字，适合手机屏幕阅读
+2. 每条文案风格要有明显差异
+3. 适当使用emoji（但不要过多）
+4. 语气真实自然，不要硬广感
+5. 有行动号召（引导私聊/评论/下单）
+6. 每条文案后面附上【建议配图】说明
+
+请严格按以下格式输出：
+
+━━━ 文案一 ━━━
+[文案内容]
+
+【建议配图】xxx
+
+━━━ 文案二 ━━━
+[文案内容]
+
+【建议配图】xxx
+
+━━━ 文案三 ━━━
+[文案内容]
+
+【建议配图】xxx`
+      };
+    }
+    
+    case 'shangpin': {
+      const name = document.getElementById('sp-name').value.trim();
+      const category = document.getElementById('sp-category').value.trim() || '综合';
+      const points = document.getElementById('sp-points').value.trim();
+      const audience = document.getElementById('sp-audience').value.trim() || '大众消费者';
+      
+      if (!name) { alert('请填写商品名称'); return null; }
+      
+      return {
+        system_prompt: `你是一位资深电商文案策划师，曾服务过多个头部品牌，擅长撰写高转化的商品详情页文案。你的文案既有营销力又不失品质感。`,
+        prompt: `请为以下商品创作完整的电商详情文案：
+
+商品信息：
+- 商品名称：${name}
+- 商品类目：${category}
+- 核心卖点：
+${points || '（请根据商品特点自行提炼）'}
+- 目标客群：${audience}
+
+请输出以下内容：
+
+【SEO标题】
+写一个60字以内的商品标题，包含核心关键词，适合电商平台搜索优化
+
+【五大卖点描述】
+为每个卖点写一段描述（50-80字），突出差异化优势
+
+【详情长文】
+撰写一篇600-800字的详情描述文案，要求：
+1. 开头用痛点场景引入
+2. 中间展示产品解决方案和优势
+3. 穿插用户评价或使用场景
+4. 结尾引导下单，制造紧迫感
+5. 语气专业但亲切，有品质感
+
+请按以上结构清晰输出。`
+      };
+    }
+    
+    case 'shipin': {
+      const topic = document.getElementById('sv-topic').value.trim();
+      const duration = document.querySelector('input[name="sv-duration"]:checked')?.value || '15';
+      const style = document.querySelector('input[name="sv-style"]:checked')?.value || '口播';
+      
+      if (!topic) { alert('请填写视频主题'); return null; }
+      
+      const durationMap = { '15': '15秒（4-5个分镜）', '30': '30秒（6-8个分镜）', '60': '60秒（8-12个分镜）' };
+      
+      return {
+        system_prompt: `你是一位百万粉丝短视频编导，精通各类短视频的脚本创作。你擅长设计吸睛开头、紧凑节奏和高转化结尾。`,
+        prompt: `请为以下短视频创作完整脚本：
+
+视频信息：
+- 主题：${topic}
+- 时长：${durationMap[duration]}
+- 风格：${style}
+
+请输出以下内容：
+
+一、【创意概述】
+用一句话概括视频创意和核心卖点
+
+二、【分镜脚本表格】
+用Markdown表格输出，表头：
+| 镜号 | 画面描述 | 台词/旁白 | 字幕/特效 | 时长 |
+
+注意事项：
+- ${style === '口播' ? '以人物口播为主，穿插B-roll画面' : ''}
+- ${style === '剧情' ? '要有情节转折或反转' : ''}
+- ${style === '产品展示' ? '突出产品使用过程和效果对比' : ''}
+- 开头3秒必须有强力钩子（hook）
+- 节奏紧凑，每个镜头不要拖沓
+
+三、【完整口播稿】
+将所有台词/旁白整理为完整的口播稿文本
+
+四、【拍摄建议】
+简要给出拍摄场地、道具、BGM等建议`
+      };
+    }
+    
+    case 'seo': {
+      const keyword = document.getElementById('seo-keyword').value.trim();
+      const subKeywords = document.getElementById('seo-sub').value.trim();
+      const words = document.querySelector('input[name="seo-words"]:checked')?.value || '800';
+      const tone = document.querySelector('input[name="seo-tone"]:checked')?.value || '专业';
+      
+      if (!keyword) { alert('请填写主关键词'); return null; }
+      
+      return {
+        system_prompt: `你是一位资深SEO内容专家，精通搜索引擎优化和内容营销。你写的文章既有搜索排名竞争力，又有良好的阅读体验。`,
+        prompt: `请围绕关键词创作一篇SEO优化文章：
+
+关键词信息：
+- 主关键词：${keyword}
+- 副关键词：${subKeywords || '无'}
+- 目标字数：${words}字
+- 语气风格：${tone}
+
+要求：
+
+1. 【标题】创作一个包含主关键词的H1标题（30字以内）
+2. 【文章结构】使用H2/H3层级组织内容，至少3个H2标题
+3. 【关键词布局】
+   - 主关键词在标题、首段、H2标题、末段自然出现
+   - 关键词密度控制在2%-5%
+   - 副关键词自然融入正文
+4. 【内容要求】
+   - 开头100字内点明主题，吸引读者继续阅读
+   - 正文内容原创、有价值、信息密度高
+   - 适当使用列表、加粗提升可读性
+   - 结尾有总结和行动号召
+5. 【内链建议】文末列出3-5个建议内链的锚文本和对应链接方向
+6. 【Meta描述】提供一段150字以内的meta description
+
+请用Markdown格式输出完整文章。`
+      };
+    }
+  }
+  return null;
+}
+
+// ===== 生成文案 =====
+async function generate() {
+  if (isGenerating) return;
+  
+  const promptData = buildPrompt();
+  if (!promptData) return;
+  
+  isGenerating = true;
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-dots">AI正在创作中</span>';
+  
+  const resultArea = document.getElementById('resultArea');
+  resultArea.innerHTML = `
+    <div class="flex flex-col items-center justify-center h-[360px]">
+      <div class="relative">
+        <div class="w-16 h-16 rounded-full border-4 border-dark-border border-t-accent-green animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-2xl">✨</div>
+      </div>
+      <p class="mt-4 text-gray-400 typing-cursor">正在生成${TAB_NAMES[currentTab]}</p>
+      <p class="mt-1 text-xs text-gray-600">请稍候，AI正在精心创作...</p>
+    </div>
+  `;
+  
+  try {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(promptData),
+    });
+    
+    const data = await response.json();
+    
+    if (data.error) {
+      resultArea.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-[360px] text-red-400">
+          <div class="text-4xl mb-3">⚠️</div>
+          <p class="text-sm">${data.error}</p>
+          ${data.detail ? `<p class="text-xs text-gray-500 mt-2 max-w-xs text-center">${data.detail}</p>` : ''}
+          <button onclick="generate()" class="mt-4 px-4 py-2 rounded-lg border border-dark-border hover:border-accent-green text-gray-300 hover:text-accent-green transition text-sm">重试</button>
+        </div>
+      `;
+      return;
+    }
+    
+    currentResult = data.content;
+    displayResult(data.content);
+    saveHistory(data.content);
+    
+    document.getElementById('copyBtn').classList.remove('hidden');
+    document.getElementById('regenBtn').classList.remove('hidden');
+    document.getElementById('wordCount').classList.remove('hidden');
+    document.getElementById('wordCount').textContent = `共 ${data.content.length} 字`;
+    
+  } catch (e) {
+    resultArea.innerHTML = `
+      <div class="flex flex-col items-center justify-center h-[360px] text-red-400">
+        <div class="text-4xl mb-3">❌</div>
+        <p class="text-sm">请求失败，请检查网络后重试</p>
+        <p class="text-xs text-gray-500 mt-2">${e.message}</p>
+        <button onclick="generate()" class="mt-4 px-4 py-2 rounded-lg border border-dark-border hover:border-accent-green text-gray-300 hover:text-accent-green transition text-sm">重试</button>
+      </div>
+    `;
+  } finally {
+    isGenerating = false;
+    btn.disabled = false;
+    btn.innerHTML = '✨ 一键生成';
+  }
+}
+
+// ===== 渲染结果（简易Markdown） =====
+function displayResult(text) {
+  const resultArea = document.getElementById('resultArea');
+  resultArea.innerHTML = `<div class="result-content fade-in">${renderMarkdown(text)}</div>`;
+}
+
+function renderMarkdown(text) {
+  let html = text
+    // 表格处理
+    .replace(/\n\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)*)/g, (match, header, body) => {
+      const headers = header.split('|').map(h => h.trim()).filter(Boolean);
+      const headerRow = headers.map(h => `<th>${h}</th>`).join('');
+      const rows = body.trim().split('\n').map(row => {
+        const cells = row.split('|').map(c => c.trim()).filter(Boolean);
+        return `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+      }).join('');
+      return `<table><thead><tr>${headerRow}</tr></thead><tbody>${rows}</tbody></table>`;
+    })
+    // H1-H3
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // 加粗和强调
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // 代码
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    // 分割线
+    .replace(/^━━━.*?━━━$/gm, (m) => `<hr><p style="text-align:center;color:#58a6ff;font-weight:bold">${m.replace(/━/g,'').trim()}</p>`)
+    .replace(/^---$/gm, '<hr>')
+    // 列表
+    .replace(/^[\-\*] (.+)$/gm, '<li>$1</li>')
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // 段落
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  
+  // 包裹连续的li
+  html = html.replace(/(<li>.*?<\/li>(\s*<br>)*)+/g, (m) => `<ul>${m.replace(/<br>/g,'')}</ul>`);
+  
+  return `<p>${html}</p>`;
+}
+
+// ===== 复制功能 =====
+function copyResult() {
+  if (!currentResult) return;
+  navigator.clipboard.writeText(currentResult).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✅ 已复制';
+    btn.classList.add('text-accent-green');
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('text-accent-green');
+    }, 2000);
+  });
+}
+
+// ===== 历史记录 =====
+function saveHistory(content) {
+  let history = JSON.parse(localStorage.getItem('marketing_history') || '[]');
+  history.unshift({
+    id: Date.now(),
+    type: TAB_NAMES[currentTab],
+    tab: currentTab,
+    content: content,
+    preview: content.substring(0, 80) + '...',
+    time: new Date().toLocaleString('zh-CN')
+  });
+  if (history.length > 20) history = history.slice(0, 20);
+  localStorage.setItem('marketing_history', JSON.stringify(history));
+}
+
+function toggleHistory() {
+  const panel = document.getElementById('historyPanel');
+  panel.classList.toggle('hidden');
+  if (!panel.classList.contains('hidden')) {
+    renderHistory();
+  }
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const history = JSON.parse(localStorage.getItem('marketing_history') || '[]');
+  
+  if (history.length === 0) {
+    list.innerHTML = '<p class="text-sm text-gray-500 text-center py-8">暂无历史记录</p>';
+    return;
+  }
+  
+  list.innerHTML = history.map(item => `
+    <div class="bg-dark-card border border-dark-border rounded-lg p-3 hover:border-accent-green/30 transition cursor-pointer" onclick="loadHistory('${item.id}')">
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="text-xs px-2 py-0.5 rounded-full bg-accent-green/10 text-accent-green">${item.type}</span>
+        <span class="text-xs text-gray-500">${item.time}</span>
+      </div>
+      <p class="text-sm text-gray-300 line-clamp-2">${item.preview}</p>
+    </div>
+  `).join('');
+}
+
+function loadHistory(id) {
+  const history = JSON.parse(localStorage.getItem('marketing_history') || '[]');
+  const item = history.find(h => h.id == id);
+  if (item) {
+    currentResult = item.content;
+    displayResult(item.content);
+    document.getElementById('copyBtn').classList.remove('hidden');
+    document.getElementById('regenBtn').classList.remove('hidden');
+    document.getElementById('wordCount').classList.remove('hidden');
+    document.getElementById('wordCount').textContent = `共 ${item.content.length} 字`;
+    toggleHistory();
+  }
+}
+
+function clearHistory() {
+  if (confirm('确定要清空所有历史记录吗？')) {
+    localStorage.removeItem('marketing_history');
+    renderHistory();
+  }
+}
+
+// 键盘快捷键
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    generate();
+  }
+});
+</script>
+</Layout>

@@ -256,6 +256,7 @@ import Layout from '../layouts/Layout.astro';
 </div>
 
 <script>
+import { chatCompletion } from '../utils/ai';
 // ===== 状态管理 =====
 let currentTab = 'xiaohongshu';
 let isGenerating = false;
@@ -511,34 +512,22 @@ async function generate() {
   `;
   
   try {
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(promptData),
-    });
-    
-    const data = await response.json();
-    
-    if (data.error) {
-      resultArea.innerHTML = `
-        <div class="flex flex-col items-center justify-center h-[360px] text-red-400">
-          <div class="text-4xl mb-3">⚠️</div>
-          <p class="text-sm">${data.error}</p>
-          ${data.detail ? `<p class="text-xs text-gray-500 mt-2 max-w-xs text-center">${data.detail}</p>` : ''}
-          <button onclick="generate()" class="mt-4 px-4 py-2 rounded-lg border border-dark-border hover:border-accent-green text-gray-300 hover:text-accent-green transition text-sm">重试</button>
-        </div>
-      `;
-      return;
+    const messages = [];
+    if (promptData.system_prompt) {
+      messages.push({ role: 'system', content: promptData.system_prompt });
     }
+    messages.push({ role: 'user', content: promptData.prompt });
     
-    currentResult = data.content;
-    displayResult(data.content);
-    saveHistory(data.content);
+    const resultContent = await chatCompletion(messages);
+    
+    currentResult = resultContent;
+    displayResult(resultContent);
+    saveHistory(resultContent);
     
     document.getElementById('copyBtn').classList.remove('hidden');
     document.getElementById('regenBtn').classList.remove('hidden');
     document.getElementById('wordCount').classList.remove('hidden');
-    document.getElementById('wordCount').textContent = `共 ${data.content.length} 字`;
+    document.getElementById('wordCount').textContent = `共 ${resultContent.length} 字`;
     
   } catch (e) {
     resultArea.innerHTML = `

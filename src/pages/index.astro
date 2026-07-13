@@ -256,7 +256,6 @@ import Layout from '../layouts/Layout.astro';
 </div>
 
 <script>
-import { chatCompletion } from '../utils/ai';
 // ===== 状态管理 =====
 let currentTab = 'xiaohongshu';
 let isGenerating = false;
@@ -518,7 +517,17 @@ async function generate() {
     }
     messages.push({ role: 'user', content: promptData.prompt });
     
-    const resultContent = await chatCompletion(messages);
+    const resp = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages, stream: false }),
+    });
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({ error: resp.statusText }));
+      throw new Error(errData.error || `请求失败: ${resp.status}`);
+    }
+    const respData = await resp.json();
+    const resultContent = respData.choices?.[0]?.message?.content || '';
     
     currentResult = resultContent;
     displayResult(resultContent);

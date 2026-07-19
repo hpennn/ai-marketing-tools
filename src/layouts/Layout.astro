@@ -1,6 +1,4 @@
 ---
-import '../styles/global.css';
-
 interface Props {
   title?: string;
 }
@@ -13,6 +11,33 @@ const { title = 'AI营销文案' } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title} - AI智能营销文案工具</title>
   <meta name="description" content="AI智能营销文案矩阵工具，一键生成小红书种草文、朋友圈营销文、商品详情文案、短视频脚本、SEO文章" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              bg: '#0d1117',
+              card: '#161b22',
+              border: '#30363d',
+              input: '#21262d',
+              hover: '#1c2128',
+            },
+            accent: {
+              green: '#3fb950',
+              blue: '#58a6ff',
+              purple: '#bc8cff',
+              orange: '#d29922',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- 百度统计 -->
+  <script>var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?BAIDU_STATS_ID"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();</script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -24,9 +49,10 @@ const { title = 'AI营销文案' } = Astro.props;
     ::-webkit-scrollbar-track { background: #161b22; }
     ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #484f58; }
-    .tab-active {
-      border-bottom: 2px solid #3fb950;
+    .sidebar-nav-active {
+      background: rgba(63, 185, 80, 0.1);
       color: #3fb950;
+      border-left: 3px solid #3fb950;
     }
     .fade-in {
       animation: fadeIn 0.3s ease-in;

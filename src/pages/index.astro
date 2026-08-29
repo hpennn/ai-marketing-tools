@@ -344,8 +344,10 @@ function switchTab(tab) {
   form.classList.add('fade-in');
 
   // 更新顶部标题
-  document.getElementById('pageTitle').textContent = TAB_ICONS[tab] + ' ' + TAB_NAMES[tab];
-  document.getElementById('pageDesc').textContent = TAB_DESCS[tab];
+  var _ptEl = document.getElementById('pageTitle');
+  var _pdEl = document.getElementById('pageDesc');
+  if (_ptEl) _ptEl.textContent = TAB_ICONS[tab] + ' ' + TAB_NAMES[tab];
+  if (_pdEl) _pdEl.textContent = TAB_DESCS[tab];
 }
 
 // ===== Prompt构建 =====
